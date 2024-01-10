@@ -4,11 +4,21 @@ const cors = require("cors");
 
 const app = express();
 const dotenv = require("dotenv");
+//connect pgsql
+const db = require("./app/models");
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log("Synced db.");
+  })
+  .catch((err) => {
+    console.log("Failed to sync db: " + err.message);
+  });
 
 dotenv.config();
 
 var corsOptions = {
-    origin: process.env.CORS_ORIGIN || "http://localhost:8081",
+  origin: process.env.CORS_ORIGIN || "http://localhost:8081",
 };
 
 app.use(cors(corsOptions));
